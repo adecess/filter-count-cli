@@ -4,7 +4,14 @@
   "description": "Command-line interface that filters a list of elements containing a pattern",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
+    "test:watch": "node --experimental-vm-modules ./node_modules/.bin/jest --watch"
+  },
+  "jest": {
+    "transform": {}
+  },
+  "engines": {
+    "node": ">=24.0.0"
   },
   "repository": {
     "type": "git",
@@ -17,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/adecess/filter-count-cli/issues"
   },
-  "homepage": "https://github.com/adecess/filter-count-cli#readme"
+  "homepage": "https://github.com/adecess/filter-count-cli#readme",
+  "devDependencies": {
+    "jest": "^30.0.5"
+  }
 }
