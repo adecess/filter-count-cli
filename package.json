@@ -1,0 +1,21 @@
+{
+  "name": "filter-count-cli",
+  "version": "1.0.0",
+  "description": "Command-line interface that filters a list of elements containing a pattern",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adecess/filter-count-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/adecess/filter-count-cli/issues"
+  },
+  "homepage": "https://github.com/adecess/filter-count-cli#readme"
+}
