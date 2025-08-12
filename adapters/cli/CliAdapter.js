@@ -1,17 +1,17 @@
-export default class CliAdapter {
+export class CliAdapter {
   constructor(dataProcessor) {
     this.dataProcessor = dataProcessor;
   }
 
   /**
    * Parses command line arguments
-   * @param {Array} argv - Process arguments
+   * @param {Array} argsList - List of CLI arguments
    * @returns {Object} Parsed options
    */
-  parseArguments(argv) {
+  parseArguments(argsList) {
     const options = {};
 
-    argv.forEach((arg) => {
+    argsList.forEach((arg) => {
       if (arg.startsWith("--filter=")) {
         options.filter = arg.split("=")[1];
       } else if (arg === "--count") {

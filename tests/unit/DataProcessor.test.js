@@ -1,4 +1,4 @@
-import { DataProcessor } from "../../domain/DataProcessor.js";
+import { DataProcessor } from "../../hexagon/DataProcessor.js";
 
 describe("DataProcessor", () => {
   let dataProcessor;
@@ -103,6 +103,34 @@ describe("DataProcessor", () => {
     });
   });
 
+  describe("_filterCountryByPattern", () => {
+    it("should return country when people have matching animals", () => {
+      const country = mockData[0];
+      const result = dataProcessor._filterCountryByPattern(country, "a");
+
+      const expectedResult = {
+        name: "Uzuzozne",
+        people: [
+          {
+            name: "Lillie Abbott",
+            animals: [{ name: "Elephant" }, { name: "Cat" }],
+          },
+        ],
+      };
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("should return null when no people have matching animals", () => {
+      const country = mockData[0];
+      const result = dataProcessor._filterCountryByPattern(country, "xyz");
+
+      const expectedResult = null;
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
   describe("_filterAnimalsByPattern", () => {
     it("should filter animals by pattern", () => {
       const animals = [
@@ -160,34 +188,6 @@ describe("DataProcessor", () => {
       };
 
       const result = dataProcessor._filterPersonByPattern(person, "xyz");
-
-      const expectedResult = null;
-
-      expect(result).toEqual(expectedResult);
-    });
-  });
-
-  describe("_filterCountryByPattern", () => {
-    it("should return country when people have matching animals", () => {
-      const country = mockData[0];
-      const result = dataProcessor._filterCountryByPattern(country, "a");
-
-      const expectedResult = {
-        name: "Uzuzozne",
-        people: [
-          {
-            name: "Lillie Abbott",
-            animals: [{ name: "Elephant" }, { name: "Cat" }],
-          },
-        ],
-      };
-
-      expect(result).toEqual(expectedResult);
-    });
-
-    it("should return null when no people have matching animals", () => {
-      const country = mockData[0];
-      const result = dataProcessor._filterCountryByPattern(country, "xyz");
 
       const expectedResult = null;
 

@@ -1,4 +1,4 @@
-import DataProcessor from "./domain/DataProcessor.js";
+import DataProcessor from "./hexagon/DataProcessor.js";
 import CliAdapter from "./adapters/cli/CliAdapter.js";
 import data from "./data.js";
 
