@@ -1,4 +1,4 @@
-export class DataProcessor {
+export class FilterUseCase {
   /**
    * Filters countries/people/animals by pattern, removing empty arrays
    * @param {Array} countries - Array of countries with people and animals
@@ -6,7 +6,7 @@ export class DataProcessor {
    * @returns {Array} Filtered countries with matching animals only
    */
   filterByPattern(countries, pattern) {
-    if (!this._isValidInput(countries, pattern)) {
+    if (!this._isValidFilterInput(countries, pattern)) {
       return [];
     }
 
@@ -16,13 +16,13 @@ export class DataProcessor {
   }
 
   /**
-   * Validates input parameters
+   * Validates filter input parameters
    * @param {Array} countries - Countries array
    * @param {string} pattern - Search pattern
-   * @returns {boolean} True if input is valid
+   * @returns {boolean} True if filter input is valid
    * @private
    */
-  _isValidInput(countries, pattern) {
+  _isValidFilterInput(countries, pattern) {
     return !!pattern && !!countries && Array.isArray(countries);
   }
 

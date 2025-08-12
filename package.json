@@ -8,10 +8,6 @@
     "test:watch": "node --experimental-vm-modules ./node_modules/.bin/jest --watch"
   },
   "jest": {
-    "preset": "default",
-    "extensionsToTreatAsEsm": [
-      ".js"
-    ],
     "globals": {
       "__esModule": true
     },

@@ -1,6 +1,7 @@
 export class CliAdapter {
-  constructor(dataProcessor) {
-    this.dataProcessor = dataProcessor;
+  constructor(filterUseCase, countUseCase) {
+    this.filterUseCase = filterUseCase;
+    this.countUseCase = countUseCase;
   }
 
   /**
@@ -39,14 +40,14 @@ export class CliAdapter {
     const options = this.parseArguments(argv);
 
     if (options.filter) {
-      const filteredData = this.dataProcessor.filterByPattern(
+      const filteredData = this.filterUseCase.filterByPattern(
         data,
         options.filter
       );
       this.outputResults(filteredData);
     } else if (options.count) {
-      // TODO: Implement count feature
-      console.log("Count feature not yet implemented");
+      const countedData = this.countUseCase.addCountToNames(data);
+      this.outputResults(countedData);
     } else {
       console.log("Usage: node app.js --filter=<pattern> | --count");
     }

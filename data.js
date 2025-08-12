@@ -342,7 +342,7 @@ export default [
     ],
   },
   {
-    name: "Satanwi",
+    name: "Onlyonegod",
     people: [
       {
         name: "Elmer Kinoshita",

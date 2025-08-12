@@ -8,17 +8,20 @@ import {
 } from "@jest/globals";
 
 import { CliAdapter } from "../../adapters/cli/CliAdapter.js";
-import { DataProcessor } from "../../hexagon/DataProcessor.js";
+import { FilterUseCase } from "../../hexagon/FilterUseCase.js";
+import { CountUseCase } from "../../hexagon/CountUseCase.js";
 
 describe("CliAdapter Integration Tests", () => {
   let cliAdapter;
-  let dataProcessor;
+  let filterUseCase;
+  let countUseCase;
   let mockData;
   let consoleSpy;
 
   beforeEach(() => {
-    dataProcessor = new DataProcessor();
-    cliAdapter = new CliAdapter(dataProcessor);
+    filterUseCase = new FilterUseCase();
+    countUseCase = new CountUseCase();
+    cliAdapter = new CliAdapter(filterUseCase, countUseCase);
 
     mockData = [
       {
@@ -31,7 +34,7 @@ describe("CliAdapter Integration Tests", () => {
         ],
       },
       {
-        name: "Satanwi",
+        name: "Onlyonegod",
         people: [
           {
             name: "Anthony Bruno",
@@ -41,7 +44,6 @@ describe("CliAdapter Integration Tests", () => {
       },
     ];
 
-    // Mock console.log to capture output
     consoleSpy = jest.spyOn(console, "log").mockImplementation();
   });
 
@@ -156,17 +158,8 @@ describe("CliAdapter Integration Tests", () => {
       expect(consoleSpy).toHaveBeenCalledWith(expectedOutput);
     });
 
-    it("should handle count command (not yet implemented)", () => {
+    it("should handle count command", () => {
       const args = ["--count"];
-      cliAdapter.execute(args, mockData);
-
-      const expectedOutput = "Count feature not yet implemented";
-
-      expect(consoleSpy).toHaveBeenCalledWith(expectedOutput);
-    });
-
-    it("should work with real DataProcessor instance", () => {
-      const args = ["--filter=Dory"];
       cliAdapter.execute(args, mockData);
 
       const output = consoleSpy.mock.calls[0][0];
@@ -174,11 +167,42 @@ describe("CliAdapter Integration Tests", () => {
 
       const expectedResult = [
         {
-          name: "Uzuzozne",
+          name: "Uzuzozne [1]",
           people: [
             {
-              name: "Lillie Abbott",
-              animals: [{ name: "John Dory" }],
+              name: "Lillie Abbott [2]",
+              animals: [{ name: "John Dory" }, { name: "Elephant" }],
+            },
+          ],
+        },
+        {
+          name: "Onlyonegod [1]",
+          people: [
+            {
+              name: "Anthony Bruno [2]",
+              animals: [{ name: "Oryx" }, { name: "Cat" }],
+            },
+          ],
+        },
+      ];
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it("should prioritize filter when both filter and count are present", () => {
+      const args = ["--filter=Oryx", "--count"];
+      cliAdapter.execute(args, mockData);
+
+      const output = consoleSpy.mock.calls[0][0];
+      const result = JSON.parse(output);
+
+      const expectedResult = [
+        {
+          name: "Onlyonegod",
+          people: [
+            {
+              name: "Anthony Bruno",
+              animals: [{ name: "Oryx" }],
             },
           ],
         },
@@ -189,21 +213,50 @@ describe("CliAdapter Integration Tests", () => {
   });
 
   describe("dependency injection", () => {
-    it("should work with different DataProcessor implementations", () => {
+    it("should work with different FilterUseCase implementations for filter", () => {
       const mockResult = [{ mocked: "result" }];
-      const mockDataProcessor = {
+      const mockFilterUseCase = {
         filterByPattern: jest.fn().mockReturnValue(mockResult),
       };
+      const mockCountUseCase = {
+        addCountToNames: jest.fn(),
+      };
 
-      const cliAdapterWithMock = new CliAdapter(mockDataProcessor);
+      const cliAdapterWithMock = new CliAdapter(
+        mockFilterUseCase,
+        mockCountUseCase
+      );
       cliAdapterWithMock.execute(["--filter=test"], mockData);
 
       const expectedOutput = JSON.stringify(mockResult, null, 2);
 
-      expect(mockDataProcessor.filterByPattern).toHaveBeenCalledWith(
+      expect(mockFilterUseCase.filterByPattern).toHaveBeenCalledWith(
         mockData,
         "test"
       );
+      expect(mockCountUseCase.addCountToNames).not.toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith(expectedOutput);
+    });
+
+    it("should work with different CountUseCase implementations for count", () => {
+      const mockResult = [{ mocked: "count result" }];
+      const mockFilterUseCase = {
+        filterByPattern: jest.fn(),
+      };
+      const mockCountUseCase = {
+        addCountToNames: jest.fn().mockReturnValue(mockResult),
+      };
+
+      const cliAdapterWithMock = new CliAdapter(
+        mockFilterUseCase,
+        mockCountUseCase
+      );
+      cliAdapterWithMock.execute(["--count"], mockData);
+
+      const expectedOutput = JSON.stringify(mockResult, null, 2);
+
+      expect(mockCountUseCase.addCountToNames).toHaveBeenCalledWith(mockData);
+      expect(mockFilterUseCase.filterByPattern).not.toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledWith(expectedOutput);
     });
   });
