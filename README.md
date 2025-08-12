@@ -1,6 +1,6 @@
 # Filter Count CLI
 
-A command-line application built that filters and counts animals, people, and countries from structured data.
+A command-line application that filters and counts animals, people, and countries from structured data.
 
 ## Architecture Overview
 
