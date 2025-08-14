@@ -139,4 +139,5 @@ node app.js --count
 
 ```bash
 npm run test
+npm run test:coverage
 ```
