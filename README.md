@@ -19,16 +19,16 @@ A command-line application that filters and counts animals, people, and countrie
 
 - **Single Responsibility Principle** - Each class has one clear purpose
 - **Dependency Injection** - Clean separation of concerns
-- **Immutability** - Original data is never modified
-- **Pure Business Logic** - Use cases contain no I/O dependencies
+- **Immutability** - Data is never modified
+- **Pure Business Logic** - Use cases contain no dependencies
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── README.md
 ├── package.json
-├── app.js                    # Entry point & dependency injection
-├── data.js                   # Sample data
+├── app.js                    # Entry point
+├── data.js                   # Data
 ├── hexagon/                  # Business logic (core)
 │   ├── FilterUseCase.js      # "Filter by pattern" use case
 │   └── CountUseCase.js       # "Add counts to names" use case
@@ -36,7 +36,7 @@ A command-line application that filters and counts animals, people, and countrie
 │   └── cli/
 │       └── CliAdapter.js     # Command-line interface
 └── tests/
-    ├── unit/                 # Isolated business logic tests
+    ├── unit/                 # Business logic tests
     │   ├── FilterUseCase.test.js
     │   └── CountUseCase.test.js
     └── integration/          # Adapter integration tests
@@ -68,7 +68,7 @@ npm install
 Filter animals containing a specific pattern:
 
 ```bash
-node app.js --filter=ry
+node app.js --filter=or
 ```
 
 **Example Output:**
@@ -83,22 +83,6 @@ node app.js --filter=ry
         "animals": [
           {
             "name": "John Dory"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Whatchusay",
-    "people": [
-      {
-        "name": "Anthony Bruno",
-        "animals": [
-          {
-            "name": "Oryx"
-          },
-          {
-            "name": "Canary"
           }
         ]
       }
@@ -154,5 +138,5 @@ node app.js --count
 ### Run All Tests
 
 ```bash
-npm test
+npm run test
 ```
