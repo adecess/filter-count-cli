@@ -33,11 +33,11 @@ export class CliAdapter {
 
   /**
    * Main execution method
-   * @param {Array} argv - Command line arguments
+   * @param {Array} argsList - Command line arguments
    * @param {Array} data - Source data
    */
-  execute(argv, data) {
-    const options = this.parseArguments(argv);
+  execute(argsList, data) {
+    const options = this.parseArguments(argsList);
 
     if (options.filter) {
       const filteredData = this.filterUseCase.filterByPattern(
