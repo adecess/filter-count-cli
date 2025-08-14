@@ -33,7 +33,6 @@ export class CountUseCase {
     const peopleCount = country.people.length;
 
     return {
-      ...country,
       name: `${country.name} [${peopleCount}]`,
       people: countedPeople,
     };
@@ -59,7 +58,6 @@ export class CountUseCase {
     const animalCount = person.animals.length;
 
     return {
-      ...person,
       name: `${person.name} [${animalCount}]`,
       animals: person.animals,
     };
